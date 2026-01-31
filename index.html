@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>جزء عم – القرآن الكريم</title>
+  <style>
+    body {
+      font-family: "Amiri", serif;
+      direction: rtl;
+      background: #f7f7f7;
+      padding: 20px;
+      line-height: 2;
+    }
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+    }
+    h2 {
+      color: #1a5276;
+      margin-top: 40px;
+    }
+    .ayah {
+      margin: 5px 0;
+    }
+  </style>
+</head>
+<body>
+
+<h1>📖 جزء عم كامل</h1>
+<div id="content">جارٍ تحميل السور…</div>
+
+<script>
+  // أرقام سور جزء عم
+  const suras = [
+    78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,
+    96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114
+  ];
+
+  const content = document.getElementById("content");
+  content.innerHTML = "";
+
+  suras.forEach(suraNumber => {
+    fetch(`https://api.alquran.cloud/v1/surah/${suraNumber}/ar`)
+      .then(res => res.json())
+      .then(data => {
+        const sura = data.data;
+        const suraDiv = document.createElement("div");
+
+        let html = `<h2>سورة ${sura.name}</h2>`;
+        sura.ayahs.forEach(a => {
+          html += `<div class="ayah">${a.text}</div>`;
+        });
+
+        suraDiv.innerHTML = html;
+        content.appendChild(suraDiv);
+      })
+      .catch(() => {
+        content.innerHTML += "<p>خطأ في تحميل السور</p>";
+      });
+  });
+</script>
+
+</body>
+</html>
